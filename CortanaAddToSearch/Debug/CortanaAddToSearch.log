@@ -1,7 +1,4 @@
 ﻿  AddPathInterface.cpp
-c:\users\userh\onedrive\documents\visual studio 2015\projects\cortanaaddtosearch\cortanaaddtosearch\AddPathInterface.h(270): warning C4129: 'S': unrecognized character escape sequence
-c:\users\userh\onedrive\documents\visual studio 2015\projects\cortanaaddtosearch\cortanaaddtosearch\AddPathInterface.h(270): warning C4129: 'A': unrecognized character escape sequence
-c:\users\userh\onedrive\documents\visual studio 2015\projects\cortanaaddtosearch\cortanaaddtosearch\AddPathInterface.h(270): warning C4129: 'l': unrecognized character escape sequence
   AddPathInterface.obj : /DEBUG:FASTLINK is not supported when managed code is present; restarting link with /DEBUG:FULL
   CortanaAddToSearch.vcxproj -> C:\Users\userh\OneDrive\Documents\Visual Studio 2015\Projects\CortanaAddToSearch\Debug\CortanaAddToSearch.exe
   CortanaAddToSearch.vcxproj -> C:\Users\userh\OneDrive\Documents\Visual Studio 2015\Projects\CortanaAddToSearch\Debug\CortanaAddToSearch.pdb (Partial PDB)

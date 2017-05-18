@@ -1,6 +1,9 @@
 #pragma once
 #include <stdlib.h>     /* system, NULL, EXIT_FAILURE */
 #include <string>
+#include <iostream>
+#include <msclr\marshal_cppstd.h>
+#include <sstream>
 
 namespace CortanaAddToSearch {
 
@@ -206,6 +209,7 @@ namespace CortanaAddToSearch {
 			this->textBox3->TabIndex = 6;
 			this->textBox3->Text = L"What should Cortana call this\? (Put an easily pronouncable name)";
 			this->textBox3->Click += gcnew System::EventHandler(this, &AddPathInterface::CallNameClicked);
+			this->textBox3->TextChanged += gcnew System::EventHandler(this, &AddPathInterface::textBox3_TextChanged);
 			// 
 			// button3
 			// 
@@ -267,7 +271,14 @@ private: System::Void textBox1_TextChanged(System::Object^  sender, System::Even
 }
 
 private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
-	system("echo Set oWS = WScript.CreateObject(\"WScript.Shell\") > CreateShortcut.vbs & echo sLinkFile = \"D:\" >> CreateShortcut.vbs & echo Set oLink = oWS.CreateShortcut(sLinkFile) >> CreateShortcut.vbs & echo oLink.TargetPath = \"D:\Software\Anki\lame.exe\" >> CreateShortcut.vbs & echo oLink.Save >> CreateShortcut.vbs & cscript CreateShortcut.vbs & del CreateShortcut.vbs");
+	msclr::interop::marshal_context context;
+	std::string standardStringForOutput = context.marshal_as<std::string>(textBox3->Text);
+	std::string standardStringForInputLocation = context.marshal_as<std::string>(textBox1->Text);
+	std::stringstream commandToRunOnPrompt;
+	commandToRunOnPrompt << "echo Set oWS = WScript.CreateObject(\"WScript.Shell\") > CreateShortcut.vbs && echo sLinkFile = \"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\" << standardStringForOutput << ".lnk" << "\" >> CreateShortcut.vbs & echo Set oLink = oWS.CreateShortcut(sLinkFile) >> CreateShortcut.vbs & echo oLink.TargetPath = \"" << standardStringForInputLocation << "\" >> CreateShortcut.vbs & echo oLink.Save >> CreateShortcut.vbs & cscript CreateShortcut.vbs & del CreateShortcut.vbs & pause";
+	const std::string& tmp = commandToRunOnPrompt.str();
+	const char* cstr = tmp.c_str();
+	system(cstr);
 }
 private: System::Void tabPage1_Click(System::Object^  sender, System::EventArgs^  e) {
 }
@@ -290,6 +301,8 @@ private: System::Void button4_Click(System::Object^  sender, System::EventArgs^ 
 			myStream->Close();
 		}
 	}
+}
+private: System::Void textBox3_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 }
 };
 }
