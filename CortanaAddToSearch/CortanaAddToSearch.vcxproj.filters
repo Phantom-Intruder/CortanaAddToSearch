@@ -29,9 +29,4 @@
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="D:\Programming\CortanaSupportScripts\Add to search.bat">
-      <Filter>Header Files</Filter>
-    </None>
-  </ItemGroup>
 </Project>

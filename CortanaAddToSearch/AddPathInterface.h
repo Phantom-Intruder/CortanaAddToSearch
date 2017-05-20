@@ -126,6 +126,7 @@ namespace CortanaAddToSearch {
 			this->button2->TabIndex = 2;
 			this->button2->Text = L"Go !";
 			this->button2->UseVisualStyleBackColor = true;
+			this->button2->Click += gcnew System::EventHandler(this, &AddPathInterface::button2_Click);
 			// 
 			// textBox2
 			// 
@@ -136,6 +137,7 @@ namespace CortanaAddToSearch {
 			this->textBox2->TabIndex = 3;
 			this->textBox2->Text = L"Enter website";
 			this->textBox2->Click += gcnew System::EventHandler(this, &AddPathInterface::CallNameClicked);
+			this->textBox2->TextChanged += gcnew System::EventHandler(this, &AddPathInterface::textBox2_TextChanged);
 			// 
 			// openFileDialog1
 			// 
@@ -174,6 +176,7 @@ namespace CortanaAddToSearch {
 			this->textBox5->Size = System::Drawing::Size(437, 22);
 			this->textBox5->TabIndex = 8;
 			this->textBox5->Text = L"Enter path to browser";
+			this->textBox5->TextChanged += gcnew System::EventHandler(this, &AddPathInterface::textBox5_TextChanged);
 			// 
 			// textBox4
 			// 
@@ -184,6 +187,7 @@ namespace CortanaAddToSearch {
 			this->textBox4->TabIndex = 7;
 			this->textBox4->Text = L"What should Cortana call this\? (Put an easily pronouncable name)";
 			this->textBox4->Click += gcnew System::EventHandler(this, &AddPathInterface::CallNameClicked);
+			this->textBox4->TextChanged += gcnew System::EventHandler(this, &AddPathInterface::textBox4_TextChanged);
 			// 
 			// tabPage1
 			// 
@@ -275,7 +279,7 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 	std::string standardStringForOutput = context.marshal_as<std::string>(textBox3->Text);
 	std::string standardStringForInputLocation = context.marshal_as<std::string>(textBox1->Text);
 	std::stringstream commandToRunOnPrompt;
-	commandToRunOnPrompt << "echo Set oWS = WScript.CreateObject(\"WScript.Shell\") > CreateShortcut.vbs && echo sLinkFile = \"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\" << standardStringForOutput << ".lnk" << "\" >> CreateShortcut.vbs & echo Set oLink = oWS.CreateShortcut(sLinkFile) >> CreateShortcut.vbs & echo oLink.TargetPath = \"" << standardStringForInputLocation << "\" >> CreateShortcut.vbs & echo oLink.Save >> CreateShortcut.vbs & cscript CreateShortcut.vbs & del CreateShortcut.vbs & pause";
+	commandToRunOnPrompt << "echo Set oWS = WScript.CreateObject(\"WScript.Shell\") > CreateShortcut.vbs && echo sLinkFile = \"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\" << standardStringForOutput << ".lnk" << "\" >> CreateShortcut.vbs & echo Set oLink = oWS.CreateShortcut(sLinkFile) >> CreateShortcut.vbs & echo oLink.TargetPath = \"" << standardStringForInputLocation << "\" >> CreateShortcut.vbs & echo oLink.Save >> CreateShortcut.vbs & cscript CreateShortcut.vbs & del CreateShortcut.vbs";
 	const std::string& tmp = commandToRunOnPrompt.str();
 	const char* cstr = tmp.c_str();
 	system(cstr);
@@ -303,6 +307,23 @@ private: System::Void button4_Click(System::Object^  sender, System::EventArgs^ 
 	}
 }
 private: System::Void textBox3_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
+	msclr::interop::marshal_context context;
+	std::string browserLocation = context.marshal_as<std::string>(textBox5->Text);
+	std::string websiteName = context.marshal_as<std::string>(textBox2->Text);
+	std::string speechString= context.marshal_as<std::string>(textBox4->Text);
+	std::stringstream commandToRunOnPrompt;
+	commandToRunOnPrompt << "echo > " << speechString << ".bat & @echo \"" << browserLocation << "\" www." << websiteName << " >> " << speechString << ".bat & echo Set oWS = WScript.CreateObject(\"WScript.Shell\") > CreateShortcut.vbs & echo sLinkFile = \"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\" << speechString << ".lnk" << "\" >> CreateShortcut.vbs & echo Set oLink = oWS.CreateShortcut(sLinkFile) >> CreateShortcut.vbs & echo oLink.TargetPath = \"%cd%\\" << speechString << ".bat" << "\" >> CreateShortcut.vbs & echo oLink.Save >> CreateShortcut.vbs & cscript CreateShortcut.vbs & del CreateShortcut.vbs";
+	const std::string& tmp = commandToRunOnPrompt.str();
+	const char* cstr = tmp.c_str();
+	system(cstr);
+}
+private: System::Void textBox5_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void textBox2_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void textBox4_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 }
 };
 }
